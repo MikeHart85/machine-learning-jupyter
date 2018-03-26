@@ -28,7 +28,9 @@ RUN DEBIAN_FRONTEND=noninteractive \
         cffi \
         graphviz \
         h5py \
+        ipywidgets \
         jupyter \
+        jupyterlab \
         keras \
         matplotlib \
         numpy \
@@ -45,6 +47,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
         http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl \
         torchvision \
     && jupyter nbextension enable --py widgetsnbextension \
+    && jupyter serverextension enable --py jupyterlab \
     && apt-get remove --purge --auto-remove -y $BUILD_DEPS \
     && apt-get clean \
     && apt-get autoclean \
@@ -56,9 +59,9 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # COPY /copyroot /
 
-WORKDIR /data
+WORKDIR /notebooks
 
-CMD ["jupyter", "notebook", \
+CMD ["jupyter", "lab", \
      "--ip=0.0.0.0", "--port=8888", \
      "--no-browser", "--allow-root", \
      "--NotebookApp.token="]
